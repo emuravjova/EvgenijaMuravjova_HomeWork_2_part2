@@ -18,48 +18,57 @@ public class GetWordFrequenciesTest {
     public void shouldGetWordFrequencies() {
         Map<String,Integer> wordFrequencies = new Text("hello world hello")
                 .getWordFrequencies();
-        Map<String,Integer> expactedFrequencies = new HashMap<String, Integer>();
-        expactedFrequencies.put("hello",2);
-        expactedFrequencies.put("world",1);
-        assertEquals(wordFrequencies,expactedFrequencies);
+        Map<String,Integer> expectedFrequencies = new HashMap<String, Integer>();
+        expectedFrequencies.put("hello",2);
+        expectedFrequencies.put("world",1);
+        assertEquals(expectedFrequencies,wordFrequencies);
     }
 
     @Test
     public void getFrequenciesForWordsInUppercaseLowercase() {
         Map<String,Integer> wordFrequencies = new Text("HELLO hello HeLlO")
                 .getWordFrequencies();
-        Map<String,Integer> expactedFrequencies = new HashMap<String, Integer>();
-        expactedFrequencies.put("hello",3);
-        assertEquals(wordFrequencies,expactedFrequencies);
+        Map<String,Integer> expectedFrequencies = new HashMap<String, Integer>();
+        expectedFrequencies.put("hello",3);
+        assertEquals(expectedFrequencies,wordFrequencies);
     }
 
     @Test
     public void getFrequenciesForWordsInTextWithPunctuation() {
         Map<String,Integer> wordFrequencies = new Text("aa - aa\" @ aa. aa, aa ?aa !)\n aa ( + aa: \t")
                 .getWordFrequencies();
-        Map<String,Integer> expactedFrequencies = new HashMap<String, Integer>();
-        expactedFrequencies.put("aa",8);
-        assertEquals(wordFrequencies,expactedFrequencies);
+        Map<String,Integer> expectedFrequencies = new HashMap<String, Integer>();
+        expectedFrequencies.put("aa",8);
+        assertEquals(expectedFrequencies,wordFrequencies);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void getFrequenciesCouldNotBeProcessedForEmptyText() {
-        new Text("").getWordFrequencies();
+    @Test
+    public void getFrequenciesReturnsNoFrequenciesForEmptyText() {
+        Map<String,Integer> wordFrequencies = new Text("")
+                .getWordFrequencies();
+        Map<String,Integer> expectedWords = new HashMap<String, Integer>();
+        assertEquals(expectedWords,wordFrequencies);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void getFrequenciesCouldNotBeProcessedForTextWithWhitespacesOnly() {
-        new Text("  \n\t\n").getWordFrequencies();
+    @Test
+    public void getFrequenciesReturnsNoFrequenciesForTextWithWhitespacesOnly() {
+        Map<String,Integer> wordFrequencies = new Text("  \n\t\n")
+                .getWordFrequencies();
+        Map<String,Integer> expectedWords = new HashMap<String, Integer>();
+        assertEquals(expectedWords,wordFrequencies);
+    }
+
+    @Test
+    public void getFrequenciesReturnsNoFrequenciesForTextWithoutWords() {
+        Map<String,Integer> wordFrequencies = new Text("_+-.,!@#$%^&*();\\/|<>\"'")
+                .getWordFrequencies();
+        Map<String,Integer> expectedWords = new HashMap<String, Integer>();
+        assertEquals(expectedWords,wordFrequencies);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void getFrequenciesCouldNotBeProcessedForNullText() {
         new Text(null).getWordFrequencies();
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void getFrequenciesCouldNotBeProcessedForTextWithoutWords() {
-        new Text("_+-.,!@#$%^&*();\\/|<>\"'").getWordFrequencies();
     }
 
 }
