@@ -37,23 +37,29 @@ public class GetLengthInCharsTest {
         assertEquals(9,count);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void getLengthInCharsCouldNotBeProcessedForEmptyText() {
-        new Text("").getLengthInChars();
+    @Test
+    public void getLengthInCharsIsZeroForEmptyText() {
+        int count = new Text("")
+                .getLengthInChars();
+        assertEquals(0,count);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void getLengthInCharsCouldNotBeProcessedForTextWithWhitespacesOnly() {
-        new Text("  \n\t\r").getLengthInChars();
+    @Test
+    public void getLengthInCharsIsZeroForTextWithWhitespacesOnly() {
+        int count = new Text("  \n\t\r")
+                .getLengthInChars();
+        assertEquals(0,count);
+    }
+
+    @Test
+    public void getLengthInCharsIsZeroForTextWithoutWords() {
+        int count = new Text("_+-.,!@#$%^&*();\\/|<>\"'")
+                .getLengthInChars();
+        assertEquals(0,count);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void getLengthInCharsCouldNotBeProcessedForNullText() {
         new Text(null).getLengthInChars();
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void getLengthInCharsCouldNotBeProcessedForTextWithoutWords() {
-        new Text("_+-.,!@#$%^&*();\\/|<>\"'").getLengthInChars();
     }
 }
