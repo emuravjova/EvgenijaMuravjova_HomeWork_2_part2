@@ -5,7 +5,11 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by jane on 10/1/17.
@@ -19,26 +23,24 @@ public class GetTopWordsTest {
         List<String> expectedWords = new ArrayList<String>();
         expectedWords.add("hello");
         expectedWords.add("world");
-        assertEquals(expectedWords,topWords);
+        assertThat(expectedWords, is(equalTo(topWords)));
     }
 
     @Test
-    public void getTopWordsOrderedAlphabetically() {
+    public void getTop2WordsOrderedAlphabetically() {
         List<String> topWords = new Text("hhello hhallz")
                 .getTopWords(2);
-        List<String> expectedWords = new ArrayList<String>();
-        expectedWords.add("hhallz");
-        expectedWords.add("hhello");
-        assertEquals(expectedWords,topWords);
+        assertThat(topWords, contains("hhallz","hhello"));
+        assertThat(topWords, hasSize(2));
     }
 
     @Test
-    public void getTopWordsInUppercaseLowercase() {
+    public void wordsInUppercaseLowercaseIsTheSameWordsForGetTopWords() {
         List<String> topWords = new Text("HELLO hello HelLo")
                 .getTopWords(3);
-        List<String> expectedWords = new ArrayList<String>();
-        expectedWords.add("hello");
-        assertEquals(expectedWords,topWords);
+        assertThat(topWords, hasItem("hello"));
+        assertThat(topWords,hasSize(1));
+
     }
 
     @Test
@@ -49,28 +51,25 @@ public class GetTopWordsTest {
         for (int i = 1; i<8; i++){
             expectedWords.add("word"+i);
         }
-        assertEquals(expectedWords,topWords);
+        assertThat(expectedWords, is(equalTo(topWords)));
     }
 
     @Test
     public void getTopWordsReturnsNoWordsForEmptyText() {
         List<String> topWords = new Text("").getTopWords(1);
-        List<String> expectedWords = new ArrayList<String>();
-        assertEquals(expectedWords,topWords);
+        assertThat(topWords, empty());
     }
 
     @Test
     public void getTopWordsReturnsNoWordsForTextWithWhitespacesOnly() {
         List<String> topWords = new Text("  \n\t\n").getTopWords(10);
-        List<String> expectedWords = new ArrayList<String>();
-        assertEquals(expectedWords,topWords);
+        assertThat(topWords, empty());
     }
 
     @Test
     public void getTopWordsReturnsNoWordsForTextWithoutWords() {
         List<String> topWords = new Text("_+-.,!@#$%^&*();\\/|<>\"'").getTopWords(10);
-        List<String> expectedWords = new ArrayList<String>();
-        assertEquals(expectedWords,topWords);
+        assertThat(topWords, empty());
     }
 
     @Test(expected = IllegalArgumentException.class)
