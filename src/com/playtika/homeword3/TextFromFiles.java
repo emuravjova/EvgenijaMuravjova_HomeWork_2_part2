@@ -23,8 +23,8 @@ public class TextFromFiles {
         try (DirectoryStream<Path> dirStream = Files.newDirectoryStream(myDir)) {
 
             for (Path filePath : dirStream) {
-                Path file = Paths.get(String.valueOf(filePath));
-                BasicFileAttributes attr = Files.readAttributes(file, BasicFileAttributes.class);
+
+                BasicFileAttributes attr = Files.readAttributes(filePath, BasicFileAttributes.class);
                 System.out.println(String.valueOf(filePath));
                 System.out.println("creationTime = " + attr.creationTime());
                 System.out.println("size         = " + attr.size());
