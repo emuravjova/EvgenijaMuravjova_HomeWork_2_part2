@@ -1,9 +1,9 @@
 package com.playtika.homework2;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.lang.Math.min;
 import static java.util.stream.Collectors.*;
@@ -22,7 +22,7 @@ public class Text {
     }
 
     private List<String> splitByWords() {
-        return Arrays.asList(text.toLowerCase().split("[^A-Za-z0-9]+")).stream()
+        return Stream.of(text.toLowerCase().split("[^A-Za-z0-9]+"))
                 .filter(s -> !s.isEmpty())
                 .collect(toList());
     }

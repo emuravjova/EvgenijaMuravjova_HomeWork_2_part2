@@ -1,0 +1,30 @@
+Old style
+
+public enum PaymentState {
+
+    PENDING(0), RECEIVED(1), TRIAL(2), UNKNOWN(-1);
+
+    private final int id;
+
+    public static PaymentState getById(Integer id) {
+
+        if (id != null) {
+            for (PaymentState current : PaymentState.values()) {
+                if (current.getId() == id) {
+                    return current;
+                }
+            }
+        }
+        throw new InvalidPaymentStateException(String.format("Invalid payment state id: %d doesn't match with existing.", id));
+    }
+
+with streams
+
+public static PaymentState filterStreamById(Integer id) {
+        Objects.requireNonNull(id, "Invalid payment state id: %d doesn't match with existing");
+        return Stream.of(PaymentState.values())
+                .filter(paymentState -> id.equals(paymentState.getId()))
+                .findFirst()
+                .orElseThrow(() -> new InvalidPaymentStateException(String.format("Invalid payment state id: %d doesn't match with existing.", id)));
+
+    }

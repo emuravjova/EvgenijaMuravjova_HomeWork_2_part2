@@ -20,7 +20,7 @@ public class GetTopWordsTest {
     public void shouldGetTopUniqueWords() {
         List<String> topWords = new Text("hello world hello")
                 .getTopWords(2);
-        List<String> expectedWords = new ArrayList<String>();
+        List<String> expectedWords = new ArrayList<>();
         expectedWords.add("hello");
         expectedWords.add("world");
         assertThat(expectedWords, is(equalTo(topWords)));
@@ -47,7 +47,7 @@ public class GetTopWordsTest {
     public void getTopWordsFromTextWithPunctuation() {
         List<String> topWords = new Text("word7+word6. word5 , word4! @#$%^ &word3 *(word2); <word1>")
                 .getTopWords(20);
-        List<String> expectedWords = new ArrayList<String>();
+        List<String> expectedWords = new ArrayList<>();
         for (int i = 1; i<8; i++){
             expectedWords.add("word"+i);
         }
@@ -70,11 +70,6 @@ public class GetTopWordsTest {
     public void getTopWordsReturnsNoWordsForTextWithoutWords() {
         List<String> topWords = new Text("_+-.,!@#$%^&*();\\/|<>\"'").getTopWords(10);
         assertThat(topWords, empty());
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void getTopWordsCouldNotBeProcessedForNullText() {
-        new Text(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
