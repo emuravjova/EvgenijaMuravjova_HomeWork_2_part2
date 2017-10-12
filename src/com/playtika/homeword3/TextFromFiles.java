@@ -2,14 +2,17 @@ package com.playtika.homeword3;
 
 import com.playtika.homework2.Text;
 
-import java.io.*;
-import java.nio.file.DirectoryStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
 
 /**
  * Created by jane on 10/3/17.
@@ -20,37 +23,45 @@ public class TextFromFiles {
 
         Path myDir = Paths.get("test");
 
-        try (DirectoryStream<Path> dirStream = Files.newDirectoryStream(myDir)) {
+        if (Files.exists(myDir)) {
 
-            for (Path filePath : dirStream) {
-
-                BasicFileAttributes attr = Files.readAttributes(filePath, BasicFileAttributes.class);
-                System.out.println(String.valueOf(filePath));
-                System.out.println("creationTime = " + attr.creationTime());
-                System.out.println("size         = " + attr.size());
-                StringBuilder linesFromFile = new StringBuilder();
-                try {
-                    List<String> lines = Files.readAllLines(filePath);
-                    for(String line: lines){
-                        linesFromFile.append(line).append(" ");
-                    }
-                }
-                catch (IOException e) {e.printStackTrace();}
-                String text = linesFromFile.toString();
-                Map<String,Integer> wordFrequencies = new Text(text).getWordFrequencies();
-                int aggregatedFrequency = 0;
-                for (int frequency : wordFrequencies.values()) {
-                    aggregatedFrequency = aggregatedFrequency + frequency;
-                }
+            try {
+                Map<String, Long> aggregatedFrequency = Files.walk(myDir)
+                        .filter(Files::isRegularFile)
+                        .flatMap(TextFromFiles::getWordsFromFile)
+                        .map(TextFromFiles::getWordFrequencies)
+                        .flatMap(m -> m.entrySet().stream())
+                        .collect(groupingBy(Map.Entry::getKey, counting()));
                 System.out.println("Aggregated word frequency is: " + aggregatedFrequency);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
         }
-        catch (IOException e) {e.printStackTrace();}
+
+        else System.out.println("Directory does not exist");
 
     }
 
-}
+    private static Map<String, Integer> getWordFrequencies(String line) {
+        return new Text(line).getWordFrequencies();
+    }
 
+    private static Stream <String> getWordsFromFile (Path filePath){
+        try {
+            BasicFileAttributes attr = Files.readAttributes(filePath, BasicFileAttributes.class);
+            System.out.println(String.valueOf(filePath));
+            System.out.println("creationTime = " + attr.creationTime());
+            System.out.println("size         = " + attr.size());
+            return Files.lines(filePath);
+        } catch (IOException e) {
+            System.out.println("some problem with file occurs, skip it");
+                return Stream.of("");
+            }
+
+    }
+
+
+
+}
 
 
