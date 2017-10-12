@@ -1,8 +1,6 @@
 package com.playtika.homework4;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.util.Comparator.comparingDouble;
 import static java.util.stream.Collectors.*;
@@ -15,60 +13,58 @@ public class PersonOperations {
 
         List<Person> people = new ArrayList<>();
 
-//        people.add(new Person("Ali",42,"Odessa"));
-//        people.add(new Person("Dave",15,"Tumba"));
-//        people.add(new Person("Kate",18,"Tumba"));
-//        people.add(new Person("Sam",71,"Odessa"));
-//        people.add(new Person("Frank",8,"Kiev"));
+        people.add(new Person("Ali",42,"Odessa"));
+        people.add(new Person("Dave",15,"New York"));
+        people.add(new Person("Kate",18,"New York"));
+        people.add(new Person("Sam",8,"Odessa"));
+        people.add(new Person("Frank",8,"Kiev"));
 
-        System.out.println(numberOfPeopleWithNameDave(people));
-        System.out.println(averageAdultsAgePerCity(people));
         System.out.println(colculateAvgAge(people));
-        System.out.println(mapAgeToPeopleWithThisAge(people));
-        System.out.println(topCity(people));
         System.out.println(oldestPerson(people).toString());
-
-
-
+        System.out.println(averageAdultsAgePerCity(people));
+        System.out.println(numberOfPeopleWithNameDave(people));
+        System.out.println(topCityByPopulation(people));
+        System.out.println(mapAgeToPeopleWithThisAge(people));
 
     }
 
     public static double colculateAvgAge(List<Person> persons) {
-            return persons.stream()
-                    .mapToDouble(Person::getAge)
-                    .average()
-                    .orElse(0);
+        return persons.stream()
+                .mapToDouble(Person::getAge)
+                .average()
+                .orElse(0);
     }
 
-    public static Person oldestPerson (List<Person> persons) {
+    public static Person oldestPerson(List<Person> persons) {
         return persons.stream()
                 .max(comparingDouble(Person::getAge))
-                .orElse(null);
+                .orElseThrow(() -> new IllegalArgumentException("Unable to find oldest person due to no person found"));
     }
 
-    public static Map <String, Double> averageAdultsAgePerCity(List<Person> persons){
+    public static Map<String, Double> averageAdultsAgePerCity(List<Person> persons) {
         return persons.stream()
                 .filter(p -> p.getAge() >= 18)
                 .collect(groupingBy(Person::getCity, averagingDouble(Person::getAge)));
     }
 
-    private static long numberOfPeopleWithNameDave (List<Person> persons) {
+    private static long numberOfPeopleWithNameDave(List<Person> persons) {
         return persons.stream()
                 .filter(p -> p.getName().equals("Dave"))
                 .count();
     }
 
-    public static String topCity (List<Person> persons){
-        return persons.stream()
-                .collect(groupingBy(Person::getCity, counting()))
-                .entrySet().stream()
-                .max(Map.Entry.comparingByValue())
-                .get()
-                .getKey();
-    }
+    public static String topCityByPopulation(List<Person> persons) {
+            return persons.stream()
+                    .collect(groupingBy(Person::getCity, counting()))
+                    .entrySet().stream()
+                    .max(Map.Entry.comparingByValue())
+                    .orElseThrow(() -> new IllegalArgumentException("Unable to get top city due to no person found"))
+                    .getKey();
+        }
 
-    public static Map<Double, Long> mapAgeToPeopleWithThisAge(List<Person> persons) {
-        return persons.stream()
-                .collect(groupingBy(Person::getAge, counting()));
+    public static Map<Double, List<Person>> mapAgeToPeopleWithThisAge(List<Person> persons) {
+            return persons.stream()
+                    .collect(groupingBy(Person::getAge));
+
     }
 }
