@@ -1,9 +1,8 @@
-package com.playtika.homeword3;
+package com.playtika.homework3;
 
 import com.playtika.homework2.Text;
 
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,9 +20,9 @@ public class TextFromFiles {
 
     public static void main(String[] args) {
 
-        Path myDir = Paths.get("test");
+        Path myDir = Paths.get("src/main/resources/testFiles");
 
-        if (Files.exists(myDir)) {
+        if (Files.exists(myDir)&&(Files.isDirectory(myDir))) {
 
             try {
                 Map<String, Long> aggregatedFrequency = Files.walk(myDir)
@@ -38,11 +37,11 @@ public class TextFromFiles {
             }
         }
 
-        else System.out.println("Directory does not exist");
+        else System.out.println("Directory does not exist or it is not a directory");
 
     }
 
-    private static Map<String, Integer> getWordFrequencies(String line) {
+    private static Map<String, Long> getWordFrequencies(String line) {
         return new Text(line).getWordFrequencies();
     }
 

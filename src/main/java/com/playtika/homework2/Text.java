@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.lang.Math.min;
 import static java.util.stream.Collectors.*;
 
 /**
@@ -33,9 +32,9 @@ public class Text {
                 .sum();
     }
 
-    public Map<String, Integer> getWordFrequencies() {
+    public Map<String, Long> getWordFrequencies() {
         return  splitByWords().stream()
-                .collect(groupingBy(w -> w, summingInt(w -> 1)));
+                .collect(groupingBy(w -> w, counting()));
     }
 
     public List<String> getTopWords(int n) {
@@ -43,7 +42,7 @@ public class Text {
         return splitByWords().stream()
                 .distinct()
                 .sorted()
-                .limit(min(n,splitByWords().size()))
+                .limit(n)
                 .collect(Collectors.toList());
     }
 
