@@ -1,5 +1,4 @@
-package com.playtika.homework2;
-
+import com.playtika.homework2.Text;
 import org.junit.Test;
 
 import java.util.ArrayList;
