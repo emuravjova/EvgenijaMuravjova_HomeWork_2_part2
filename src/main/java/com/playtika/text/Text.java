@@ -1,4 +1,4 @@
-package com.playtika.homework2;
+package com.playtika.text;
 
 import java.util.List;
 import java.util.Map;

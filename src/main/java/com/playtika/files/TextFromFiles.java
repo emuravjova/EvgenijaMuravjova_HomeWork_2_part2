@@ -1,6 +1,8 @@
-package com.playtika.homework3;
+package com.playtika.files;
 
-import com.playtika.homework2.Text;
+import com.playtika.text.Text;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,12 +20,13 @@ import static java.util.stream.Collectors.groupingBy;
  */
 public class TextFromFiles {
 
+    private static final Logger LOG = LogManager.getLogger(TextFromFiles.class);
+
     public static void main(String[] args) {
 
         Path myDir = Paths.get("src/main/resources/testFiles");
 
         if (Files.exists(myDir)&&(Files.isDirectory(myDir))) {
-
             try {
                 Map<String, Long> aggregatedFrequency = Files.walk(myDir)
                         .filter(Files::isRegularFile)
@@ -31,14 +34,12 @@ public class TextFromFiles {
                         .map(TextFromFiles::getWordFrequencies)
                         .flatMap(m -> m.entrySet().stream())
                         .collect(groupingBy(Map.Entry::getKey, counting()));
-                System.out.println("Aggregated word frequency is: " + aggregatedFrequency);
+                LOG.info("Aggregated word frequency is: {}", aggregatedFrequency);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
-        else System.out.println("Directory does not exist or it is not a directory");
-
+        else LOG.warn("Directory does not exist");
     }
 
     private static Map<String, Long> getWordFrequencies(String line) {
@@ -48,19 +49,13 @@ public class TextFromFiles {
     private static Stream <String> getWordsFromFile (Path filePath){
         try {
             BasicFileAttributes attr = Files.readAttributes(filePath, BasicFileAttributes.class);
-            System.out.println(String.valueOf(filePath));
-            System.out.println("creationTime = " + attr.creationTime());
-            System.out.println("size         = " + attr.size());
+            LOG.info("File allocated here: {}, creationTime = {}, size = {}", String.valueOf(filePath), attr.creationTime(), attr.size());
             return Files.lines(filePath);
         } catch (IOException e) {
-            System.out.println("some problem with file occurs, skip it");
+            LOG.warn("some problem with file occurs, skip it");
                 return Stream.of("");
             }
-
     }
-
-
-
 }
 
 

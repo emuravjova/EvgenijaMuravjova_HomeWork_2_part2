@@ -1,8 +1,9 @@
-import com.playtika.homework2.Text;
+package com.playtika.text;
+
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by jane on 10/1/17.

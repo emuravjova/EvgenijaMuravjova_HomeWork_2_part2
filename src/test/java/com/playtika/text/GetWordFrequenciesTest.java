@@ -1,5 +1,5 @@
+package com.playtika.text;
 
-import com.playtika.homework2.Text;
 import org.junit.Test;
 
 import java.util.Collections;
@@ -70,4 +70,6 @@ public class GetWordFrequenciesTest {
         Map<String, Long> expectedFrequencies = Collections.singletonMap("aaa",1L);
         assertThat(expectedFrequencies, is(equalTo(wordFrequencies)));
     }
+
+
 }
