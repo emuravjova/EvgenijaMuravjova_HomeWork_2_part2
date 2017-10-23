@@ -32,12 +32,6 @@ public class PersonOperations {
         LOG.info("Number of people with name Dave is {}", Person.numberOfPeopleWithNameDave(people));
         LOG.info("Top city by population is {}", Person.topCityByPopulation(people));
         LOG.info("Map of age to number of people with this age: {}", Person.mapAgeToPeopleWithThisAge(people));
-//
-//        System.out.println(Person.averageAdultsAgePerCity(people));
-//        System.out.println(Person.numberOfPeopleWithNameDave(people));
-//        System.out.println(Person.topCityByPopulation(people));
-//        System.out.println(Person.mapAgeToPeopleWithThisAge(people));
-
     }
 
 }

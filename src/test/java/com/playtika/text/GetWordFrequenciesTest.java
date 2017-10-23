@@ -71,5 +71,4 @@ public class GetWordFrequenciesTest {
         assertThat(expectedFrequencies, is(equalTo(wordFrequencies)));
     }
 
-
 }

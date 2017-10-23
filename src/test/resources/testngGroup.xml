@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Get length of text in chars">
+    <test name="Get length of text in chars">
+        <groups>
+            <run>
+                <include name="getLengthInChars"/>
+            </run>
+        </groups>
+
+        <classes>
+            <class name="com.playtika.text.TestngLengthInCharsTest"/>
+        </classes>
+    </test>
+</suite>

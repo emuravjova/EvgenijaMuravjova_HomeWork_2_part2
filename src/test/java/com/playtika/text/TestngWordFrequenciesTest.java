@@ -1,6 +1,6 @@
+package com.playtika.text;
 
-import com.playtika.homework2.Text;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,12 +11,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasEntry;
 import static org.junit.Assert.assertThat;
 
-/**
- * Created by jane on 10/1/17.
- */
-public class GetWordFrequenciesTest {
+public class TestngWordFrequenciesTest {
 
-    @Test
+    @Test(groups = {"getWordsFrequencies"})
     public void shouldGetWordFrequencies() {
         Map<String,Long> wordFrequencies = new Text("hello world hello")
                 .getWordFrequencies();
@@ -26,7 +23,7 @@ public class GetWordFrequenciesTest {
         assertThat(expectedFrequencies, is(equalTo(wordFrequencies)));
     }
 
-    @Test
+    @Test(groups = {"getWordsFrequencies"}, dependsOnMethods = {"shouldGetWordFrequencies"}, priority = 1)
     public void getWordsFrequenciesInUppercaseLowercase() {
         Map<String,Long> wordFrequencies = new Text("HELLO hello HeLlO")
                 .getWordFrequencies();
@@ -34,7 +31,7 @@ public class GetWordFrequenciesTest {
         assertThat(expectedFrequencies, is(equalTo(wordFrequencies)));
     }
 
-    @Test
+    @Test(groups = {"getWordsFrequencies"}, dependsOnMethods = {"shouldGetWordFrequencies"}, priority = 1)
     public void getWordsFrequenciesInTextWithPunctuation() {
         Map<String,Long> wordFrequencies = new Text("aa - aa\" @ aa. aa, aa ?aa !)\n aa ( + aa: \t")
                 .getWordFrequencies();
@@ -42,32 +39,33 @@ public class GetWordFrequenciesTest {
         assertThat(wordFrequencies.size(), is(1));
     }
 
-    @Test
+    @Test(groups = {"getWordsFrequencies"}, dependsOnMethods = {"shouldGetWordFrequencies"}, priority = 2)
     public void getFrequenciesReturnsNoFrequenciesForEmptyText() {
         Map<String,Long> wordFrequencies = new Text("")
                 .getWordFrequencies();
         assertThat(wordFrequencies.size(),is(0));
     }
 
-    @Test
+    @Test(groups = {"getWordsFrequencies"}, dependsOnMethods = {"shouldGetWordFrequencies"}, priority = 2)
     public void getFrequenciesReturnsNoFrequenciesForTextWithWhitespacesOnly() {
         Map<String,Long> wordFrequencies = new Text("  \n\t\n")
                 .getWordFrequencies();
         assertThat(wordFrequencies.size(),is(0));
     }
 
-    @Test
+    @Test(groups = {"getWordsFrequencies"}, dependsOnMethods = {"shouldGetWordFrequencies"}, priority = 2)
     public void getFrequenciesReturnsNoFrequenciesForTextWithoutWords() {
         Map<String,Long> wordFrequencies = new Text("_+-.,!@#$%^&*();\\/|<>\"'")
                 .getWordFrequencies();
         assertThat(wordFrequencies.size(),is(0));
     }
 
-    @Test
+    @Test(groups = {"getWordsFrequencies"}, dependsOnMethods = {"shouldGetWordFrequencies"}, priority = 1)
     public void getFrequenciesForTextThatStartsWithNotWord() {
         Map<String,Long> wordFrequencies = new Text("@aaa")
                 .getWordFrequencies();
         Map<String, Long> expectedFrequencies = Collections.singletonMap("aaa",1L);
         assertThat(expectedFrequencies, is(equalTo(wordFrequencies)));
     }
+
 }
