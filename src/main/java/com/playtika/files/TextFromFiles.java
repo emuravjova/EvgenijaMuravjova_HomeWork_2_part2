@@ -49,7 +49,7 @@ public class TextFromFiles {
     private static Stream <String> getWordsFromFile (Path filePath){
         try {
             BasicFileAttributes attr = Files.readAttributes(filePath, BasicFileAttributes.class);
-            LOG.info("File allocated here: {}, creationTime = {}, size = {}", String.valueOf(filePath), attr.creationTime(), attr.size());
+            LOG.info("File is located here: {}, creationTime = {}, size = {}", String.valueOf(filePath), attr.creationTime(), attr.size());
             return Files.lines(filePath);
         } catch (IOException e) {
             LOG.warn("some problem with file occurs, skip it");

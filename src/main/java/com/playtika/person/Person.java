@@ -1,5 +1,8 @@
 package com.playtika.person;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +15,8 @@ import static java.util.stream.Collectors.groupingBy;
  * Created by jane on 10/8/17.
  */
 public class Person {
+
+    private static final Logger LOG = LogManager.getLogger(Person.class);
     private String name;
     private double age;
     private String city;
@@ -43,6 +48,7 @@ public class Person {
         return sb.toString();
     }
     public static double calculateAvgAge(List<Person> people) {
+        LOG.debug("Avg age calculating...");
         return people.stream()
                 .mapToDouble(Person::getAge)
                 .average()
@@ -50,24 +56,28 @@ public class Person {
     }
 
     public static Person oldestPerson(List<Person> people) {
+        LOG.debug("Searching for the oldest person...");
         return people.stream()
                 .max(comparingDouble(Person::getAge))
                 .orElseThrow(() -> new IllegalArgumentException("Unable to find oldest person due to no person found"));
     }
 
     public static Map<String, Double> averageAdultsAgePerCity(List<Person> people) {
+        LOG.debug("Avg adults age per city calculating...");
         return people.stream()
                 .filter(p -> p.getAge() >= 18)
                 .collect(groupingBy(Person::getCity, averagingDouble(Person::getAge)));
     }
 
     public static long numberOfPeopleWithNameDave(List<Person> people) {
+        LOG.debug("Searching for Dave...");
         return people.stream()
                 .filter(p -> p.getName().equals("Dave"))
                 .count();
     }
 
     public static String topCityByPopulation(List<Person> people) {
+        LOG.debug("Searching for top city by population...");
         return people.stream()
                 .collect(groupingBy(Person::getCity, counting()))
                 .entrySet().stream()
@@ -77,6 +87,7 @@ public class Person {
     }
 
     public static Map<Double, List<Person>> mapAgeToPeopleWithThisAge(List<Person> people) {
+        LOG.debug("Mapping people with their age...");
         return people.stream()
                 .collect(groupingBy(Person::getAge));
 

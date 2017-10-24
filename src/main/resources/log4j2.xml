@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration xmlns="http://logging.apache.org/log4j/2.0/config">
+<Configuration>
 
     <Appenders>
         <RollingFile name="RollingFile">
@@ -19,9 +19,9 @@
     </Appenders>
 
     <Loggers>
-        <Root level="info">
-            <AppenderRef ref="STDOUT"/>
+        <Root level="trace">
             <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="STDOUT" level="INFO"/>
         </Root>
     </Loggers>
 
