@@ -7,7 +7,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import org.testng.annotations.Test;
 
 public class TestngTopWordsTest {
@@ -19,6 +20,7 @@ public class TestngTopWordsTest {
         List<String> expectedWords = new ArrayList<>();
         expectedWords.add("hello");
         expectedWords.add("world");
+
         assertThat(expectedWords, is(equalTo(topWords)));
     }
 
