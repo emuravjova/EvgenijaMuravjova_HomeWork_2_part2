@@ -36,7 +36,7 @@ public class TextFromFiles {
                         .collect(groupingBy(Map.Entry::getKey, counting()));
                 LOG.info("Aggregated word frequency is: {}", aggregatedFrequency);
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.warn("Oops...", e);
             }
         }
         else LOG.warn("Directory does not exist");
@@ -52,7 +52,7 @@ public class TextFromFiles {
             LOG.info("File is located here: {}, creationTime = {}, size = {}", String.valueOf(filePath), attr.creationTime(), attr.size());
             return Files.lines(filePath);
         } catch (IOException e) {
-            LOG.warn("some problem with file occurs, skip it");
+            LOG.warn("some problem with file occurs, skip it", e);
                 return Stream.of("");
             }
     }
